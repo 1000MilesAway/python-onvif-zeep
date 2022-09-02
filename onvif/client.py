@@ -235,7 +235,9 @@ class ONVIFCamera(object):
             try:
                 if name.lower() in SERVICES and capability is not None:
                     ns = SERVICES[name.lower()]['ns']
-                    self.xaddrs[ns] = capability['XAddr']
+                    addr = capability['XAddr'].split('/')
+                    addr[2] = f'{self.host}:{self.port}'
+                    self.xaddrs[ns] = '/'.join(addr)
             except Exception:
                 logger.exception('Unexpected service type')
 
